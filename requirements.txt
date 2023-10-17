@@ -1,4 +1,4 @@
-toml-based
+toml-based==23.1.1
 
 aiofiles
 
