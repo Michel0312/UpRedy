@@ -1,16 +1,24 @@
 {
-  "name": "Kinto",
-  "description": "Store, Sync, and Share",
-  "addons": [
-    "scalingo-postgresql"
-  ],
-  "website": "https://kinto.readthedocs.io/en/stable/index.html",
-  "repository": "https://github.com/Scalingo/kinto-scalingo",
-  "logo": "https://avatars0.githubusercontent.com/u/13413813",
-  "env": {
-    "KINTO_USERID_HMAC_SECRET": {
-      "description": "The secret used to create the user ID from a username:password pair",
-      "generator": "secret"
-    }
+ "name": "Telegram Video Merge Bot",
+ "description": "A Telegram Bot in Pyrogram by @GreyMatter_Bots",
+ "keywords": [
+  "telegram",
+  "video",
+  "merge",
+  "bot"
+ ],
+ "repository": "https://github.com/Michel0312/UpRedy",
+ "website": "https://telegram.dog/GreyMatter_bots",
+ "stack": "container",
+ "env": {
+  "CONFIG_FILE_URL": {
+   "description": "Make Config on gist and paste raw link "
   }
+ },
+ "formation": {
+  "worker": {
+   "quantity": 1,
+   "size": "free"
+  }
+ }
 }
