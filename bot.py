@@ -2463,7 +2463,7 @@ async def tesisld_api(file,usid,msg,username):
 			payload = payload = {}
 			payload["F_UserName"] = "lazaro03"
 			payload["F_Password"] = "Michel03."
-			async with session.post(host+"index.php?P=UserLogin", data=payload,headers=headers) as e:
+			async with session.post(host+"index.php?P=UserLogin", data=payload,headers=headers,ssl=False) as e:
 				print(222)
 				print(e.url)
 			#upload
@@ -2475,7 +2475,7 @@ async def tesisld_api(file,usid,msg,username):
 				links = []
 				for file in files:
 					try:
-						async with session.get(host+"index.php?P=EditResource&ID=NEW",headers=headers) as resp:
+						async with session.get(host+"index.php?P=EditResource&ID=NEW",headers=headers,ssl=False) as resp:
 							raw_data = await resp.read()
 							text = raw_data.decode('utf-8', errors='replace')
 						soup = BeautifulSoup(text,"html.parser")
@@ -2512,7 +2512,7 @@ async def tesisld_api(file,usid,msg,username):
 						payload["F_ComentariosySugerencias"] = ""
 						fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))								
 						query = {"Textorestringido":fi,**payload}
-						async with session.post(host+f_ids,data=query,headers=headers) as resp:
+						async with session.post(host+f_ids,data=query,headers=headers,ssl=False) as resp:
 							raw_data = await resp.read()
 							text = raw_data.decode('utf-8', errors='replace')
 						soup = BeautifulSoup(text,"html.parser")
@@ -2540,7 +2540,7 @@ async def tesisld_api(file,usid,msg,username):
 				h = {"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8","Accept-Encoding":"deflate","Accept-Language":"en-US,en;q=0.5","Connection":"keep-alive","User-Agent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0"}
 				await msg.edit("📤 Subiendo 📤")
 				print(host+"index.php?P=EditResource&ID=NEW")
-				async with session.get(host+"index.php?P=EditResource&ID=NEW",headers=h) as resp:
+				async with session.get(host+"index.php?P=EditResource&ID=NEW",headers=h,ssl=False) as resp:
 					print(resp.status)
 					raw_data = await resp.read()
 					text = raw_data.decode('utf-8', errors='replace')
@@ -2580,7 +2580,7 @@ async def tesisld_api(file,usid,msg,username):
 				payload["F_ComentariosySugerencias"] = ""
 				fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))								
 				query = {"Textorestringido":fi,**payload}
-				async with session.post(host+f_ids,data=query,headers=headers) as resp:
+				async with session.post(host+f_ids,data=query,headers=headers,ssl=False) as resp:
 					raw_data = await resp.read()
 					text = raw_data.decode('utf-8', errors='replace')
 				soup = BeautifulSoup(text,"html.parser")
