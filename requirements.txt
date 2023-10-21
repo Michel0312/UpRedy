@@ -1,4 +1,4 @@
-toml-based==1.2.3
+toml-based
 
 aiofiles
 
