@@ -102,7 +102,7 @@ Pyrogram==2.0.62
 
 PySocks==1.7.1
 
-python-socks==2.0.3
+python-socks==3.0.0
 
 python-telegram-bot==13.15
 
