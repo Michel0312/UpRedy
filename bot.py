@@ -1269,7 +1269,7 @@ async def delete_draft_y_down_media(client: Client, message: Message):
 					payload["source"] = "/index.php/medisur/user/profile"
 					payload["username"] = "lazaro12"
 					payload["password"] = "Lazaro12."
-					async with session.post(host+"login/signIn", data=payload) as e:
+					async with session.post(host+"login/signIn", data=payload,ssl=False) as e:
 						print(222)
 					for url in urls:
 						try:
@@ -1353,7 +1353,7 @@ async def delete_draft_y_down_media(client: Client, message: Message):
 					payload = payload = {}
 					payload["F_UserName"] = "lazaro03"
 					payload["F_Password"] = "Michel03."
-					async with session.post(host+"index.php?P=UserLogin", data=payload,headers=headers) as e:
+					async with session.post(host+"index.php?P=UserLogin", data=payload,headers=headers,ssl=False) as e:
 						print(222)
 						print(e.url)
 					for url in urls:
@@ -1390,7 +1390,7 @@ async def delete_draft_y_down_media(client: Client, message: Message):
 							payload["F_ComentariosySugerencias"] = ""
 							payload[f"DeleteFile_{d_id}"] = "Borra"
 							query = {"PDF":"application/octet-stream",**payload}
-							async with session.post(f"{host}index.php?P=EditResourceComplete&ID=-{url_id}",data=query) as resp:
+							async with session.post(f"{host}index.php?P=EditResourceComplete&ID=-{url_id}",data=query,ssl=False) as resp:
 								print(resp.status)
 								if resp.status==302 or resp.status==200:
 									p+=1
@@ -1849,7 +1849,7 @@ class RevistasClient:
 		self.csrfToken = ''
 		self.headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0'}
 	async def login(self) -> bool:
-		async with self.session.get(self.host+'login',headers=self.headers) as resp:
+		async with self.session.get(self.host+'login',headers=self.headers,ssl=False) as resp:
 			soup = BeautifulSoup(markup=resp.text,features="html.parser")
 			self.csrfToken = soup.find("input",attrs={"name":"csrfToken"})['value']
 			print(self.csrfToken)
@@ -1863,9 +1863,9 @@ class RevistasClient:
 		data.add_field('password', self.passw)
 		data.add_field('remember', '1')
 		print(data)
-		async with self.session.post(url_post,data=data,headers=self.headers) as resp1:
+		async with self.session.post(url_post,data=data,headers=self.headers,ssl=False) as resp1:
 			print('1')
-		async with self.session.get(self.host+'user/profile',headers=self.headers) as resp2:
+		async with self.session.get(self.host+'user/profile',headers=self.headers,ssl=False) as resp2:
 			if resp2.url == self.host+'user/profile':
 				print('Login Exito')
 				return True
@@ -1883,7 +1883,7 @@ class RevistasClient:
 		data.add_field("file", q)
 		self.headers["X-Csrf-token"] = self.csrfToken
 		post_file_url = self.host + 'api/v1/submissions/'+ self.up_id +'/files'
-		async with self.session.post(post_file_url,data=data,headers=self.headers) as resp:
+		async with self.session.post(post_file_url,data=data,headers=self.headers,ssl=False) as resp:
 			text = resp2.text
 		if '_href' in text:
 			parse = str(text).replace('\/','/')
@@ -2337,7 +2337,7 @@ async def medisur_api(file,usid,msg,username):
 			payload["source"] = "/index.php/medisur/user/profile"
 			payload["username"] = "lazaro12"
 			payload["password"] = "Lazaro12."
-			async with session.post(host+"login/signIn", data=payload) as e:
+			async with session.post(host+"login/signIn", data=payload,ssl=False) as e:
 				print(222)
 			#upload
 			if filesize-1048>zipssize:
@@ -2349,9 +2349,9 @@ async def medisur_api(file,usid,msg,username):
 				for file in files:
 					try:
 						#editar
-						async with session.get(host+"author/submit") as resp:
+						async with session.get(host+"author/submit" ,ssl=False) as resp:
 							print(1)
-						async with session.get(host+"author/submit/1") as resp:
+						async with session.get(host+"author/submit/1" ,ssl=False) as resp:
 							print(2)
 						payload = {
 							"submissionChecklist": "1",
@@ -2368,7 +2368,7 @@ async def medisur_api(file,usid,msg,username):
 							"copyrightNoticeAgree": "1",
 							"commentsToEditor": ""
 						}
-						async with session.post(host+"author/saveSubmit/1",data=payload) as resp:
+						async with session.post(host+"author/saveSubmit/1",data=payload,ssl=False) as resp:
 							print(3)
 							print(resp.url)
 							ids = str(resp.url).split("Id=")[1]
@@ -2383,7 +2383,7 @@ async def medisur_api(file,usid,msg,username):
 						post_file_url = host+"author/saveSubmit/2"
 						fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))
 						query = {"submissionFile":fi,**upload_data}
-						async with session.post(post_file_url,data=query) as resp:
+						async with session.post(post_file_url,data=query,ssl=False) as resp:
 							text = await resp.text()
 							url = str(text).split('"controls"><a href="')[1].split('">')[0]
 							links.append(url)
@@ -2400,9 +2400,9 @@ async def medisur_api(file,usid,msg,username):
 				await bot.send_document(usid,txtname)
 			else:
 				await msg.edit("📤 Subiendo 📤")
-				async with session.get(host+"author/submit") as resp:
+				async with session.get(host+"author/submit" ,ssl=False) as resp:
 					print(1)
-				async with session.get(host+"author/submit/1") as resp:
+				async with session.get(host+"author/submit/1" ,ssl=False) as resp:
 					print(2)
 				payload = {
 					"submissionChecklist": "1",
@@ -2419,7 +2419,7 @@ async def medisur_api(file,usid,msg,username):
 					"copyrightNoticeAgree": "1",
 					"commentsToEditor": ""
 				}
-				async with session.post(host+"author/saveSubmit/1",data=payload) as resp:
+				async with session.post(host+"author/saveSubmit/1",data=payload,ssl=False) as resp:
 					print(3)
 					ids = str(resp.url).split("Id=")[1]
 				mime_type, _ = mimetypes.guess_type(file)
@@ -2433,7 +2433,7 @@ async def medisur_api(file,usid,msg,username):
 				post_file_url = host+"author/saveSubmit/2"
 				fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))
 				query = {"submissionFile":fi,**upload_data}
-				async with session.post(post_file_url,data=query) as resp:
+				async with session.post(post_file_url,data=query,ssl=False) as resp:
 					text = await resp.text()
 					url = str(text).split('"controls"><a href="')[1].split('">')[0]
 					await msg.edit(f"✅ Finalizado ✅ \n\n{file.split('/')[-1]}\n[ .txt ] ⤵️")
@@ -2778,7 +2778,7 @@ async def up_revistas_api(file,usid,msg,username):
 		connector = aiohttp.TCPConnector()
 		#connector = aiohttp_socks.ProxyConnector.from_url('socks5://143.244.205.72:1080')
 		async with aiohttp.ClientSession(connector=connector) as session:
-			async with session.get(host + "login") as response:
+			async with session.get(host + "login" ,ssl=False) as response:
 				html = await response.text()
 			soup = BeautifulSoup(html, "html.parser")
 			csrfToken = soup.find("input",attrs={"name":"csrfToken"})['value']
@@ -2789,10 +2789,10 @@ async def up_revistas_api(file,usid,msg,username):
 			payload['username'] = user
 			payload['password'] = passw
 			payload['remember'] = '1'
-			async with session.post(url_post, data=payload) as e:
+			async with session.post(url_post, data=payload,ssl=False) as e:
 				print(222)
 			url = host + 'user/profile'
-			async with session.get(url) as resp:
+			async with session.get(url ,ssl=False) as resp:
 				try:
 					u = resp.url
 				except:
@@ -2819,7 +2819,7 @@ async def up_revistas_api(file,usid,msg,username):
 									post_file_url = host + 'api/v1/submissions/'+ up_id +'/files'
 									fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))
 									query = {"file":fi,**upload_data}
-									async with session.post(post_file_url,data=query,headers={'X-Csrf-token':csrfToken}) as resp:
+									async with session.post(post_file_url,data=query,headers={'X-Csrf-token':csrfToken} ,ssl=False) as resp:
 										text = await resp.text()
 										if '_href' in text:
 											parse = str(text).replace('\/','/')
@@ -2847,7 +2847,7 @@ async def up_revistas_api(file,usid,msg,username):
 							post_file_url = host + 'api/v1/submissions/'+ up_id +'/files'
 							fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))
 							query = {"file":fi,**upload_data}
-							async with session.post(post_file_url,data=query,headers={'X-Csrf-token':csrfToken}) as resp:
+							async with session.post(post_file_url,data=query,headers={'X-Csrf-token':csrfToken} ,ssl=False) as resp:
 								text = await resp.text()
 								if '_href' in text:
 									parse = str(text).replace('\/','/')
@@ -2875,7 +2875,7 @@ async def up_revistas_api(file,usid,msg,username):
 									fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))
 									query = {"uploadedFile":fi,**upload_data}
 									post_file_url = host + '$$$call$$$/wizard/file-upload/file-upload-wizard/upload-file?submissionId=' + up_id + '&stageId=1&fileStage=2&reviewRoundId=&assocType=&assocId='
-									async with session.post(post_file_url,data=query,headers={'X-Csrf-token':csrfToken}) as resp:
+									async with session.post(post_file_url,data=query,headers={'X-Csrf-token':csrfToken} ,ssl=False) as resp:
 										text = await resp.text()
 										try:
 											fileId = str(text).split('"fileId":')[1].split(',')[0]
@@ -2906,7 +2906,7 @@ async def up_revistas_api(file,usid,msg,username):
 							fi = Progress(file,lambda current,total,timestart,filename: uploadfile_progres(current,total,timestart,filename,msg))
 							query = {"uploadedFile":fi,**upload_data}
 							post_file_url = f'{host}$$$call$$$/wizard/file-upload/file-upload-wizard/upload-file?submissionId={up_id}&stageId=1&fileStage=2&reviewRoundId=&assocType=&assocId='
-							async with session.post(post_file_url,data=query) as resp:
+							async with session.post(post_file_url,data=query,ssl=False) as resp:
 								text = await resp.text()
 								#print(text)
 								try:
