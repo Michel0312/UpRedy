@@ -39,8 +39,8 @@ from yarl import URL
 from bs4 import BeautifulSoup
 from io import BufferedReader
 from aiohttp import ClientSession
-from py7zr import SevenZipFile
-from py7zr import FILTER_COPY
+#from py7zr import SevenZipFile
+#from py7zr import FILTER_COPY
 from zipfile import ZipFile
 from multivolumefile import MultiVolume
 from move_profile import move_to_profile
