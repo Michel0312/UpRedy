@@ -1,3 +1,5 @@
+uvicorn
+
 aiofiles
 
 aiohttp_socks
